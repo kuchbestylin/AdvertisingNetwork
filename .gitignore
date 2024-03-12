@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/weatherapi/weatherapi.csproj
+/Test/Test.csproj
+/BlazorApp1/BlazorApp1.csproj
+/BlazorApp2/BlazorApp2.csproj
