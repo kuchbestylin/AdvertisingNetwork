@@ -1,0 +1,112 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34607.79
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvertisingNetwork.AppHost", "AdvertisingNetwork.AppHost\AdvertisingNetwork.AppHost.csproj", "{C3E25C2E-192A-4AC6-8CA2-292C286EDB5B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvertisingNetwork.ServiceDefaults", "AdvertisingNetwork.ServiceDefaults\AdvertisingNetwork.ServiceDefaults.csproj", "{C87E2FA6-65E0-43B9-8EE4-DB1E6DCAC26C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdService", "AdService\AdService.csproj", "{466E5064-F9A2-4C93-A2FF-A4A0BA2E07E4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContentService", "ContentService\ContentService.csproj", "{2B1AD241-8A5B-418D-B731-904C911AB4D4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataService", "DataService\DataService.csproj", "{A6F058ED-8FC0-42E4-BDE0-AAD735DF16BF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdSelectorService", "AdSelectorService\AdSelectorService.csproj", "{001E56A6-51F2-4E39-B466-3FAD5E6A055E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BiddingService", "BiddingService\BiddingService.csproj", "{D974C1BC-C3BD-4A76-AAC9-A13661EFCF57}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdProviderService", "AdProviderService\AdProviderService.csproj", "{31815FA0-B53E-4B4C-91FF-4AB783AA07B4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CampaignEvaluationConsumerService", "CampaignEvaluationConsumerService\CampaignEvaluationConsumerService.csproj", "{B1F40D65-9FB4-4B88-B755-1329044462DD}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedProject", "SharedModels\SharedProject.shproj", "{37DEF9BB-0308-4881-AE80-A8912F4F02CC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IndentityServer", "IndentityServer\IndentityServer.csproj", "{145246C8-C695-4089-8946-0A2396B8C572}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "weatherapi", "weatherapi\weatherapi.csproj", "{8580960B-1723-4AA8-ABC8-E33345B916F4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{BE2EB8F2-30C2-4D2A-BC9F-AE6C699F09A5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp1", "BlazorApp1\BlazorApp1.csproj", "{FB48F6FC-E038-4BBB-8CB7-E2F644FF4C2A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp2", "BlazorApp2\BlazorApp2.csproj", "{EDB43388-86EF-4062-8757-D52D0C3DAF3E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C3E25C2E-192A-4AC6-8CA2-292C286EDB5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3E25C2E-192A-4AC6-8CA2-292C286EDB5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3E25C2E-192A-4AC6-8CA2-292C286EDB5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3E25C2E-192A-4AC6-8CA2-292C286EDB5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C87E2FA6-65E0-43B9-8EE4-DB1E6DCAC26C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C87E2FA6-65E0-43B9-8EE4-DB1E6DCAC26C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C87E2FA6-65E0-43B9-8EE4-DB1E6DCAC26C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C87E2FA6-65E0-43B9-8EE4-DB1E6DCAC26C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{466E5064-F9A2-4C93-A2FF-A4A0BA2E07E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{466E5064-F9A2-4C93-A2FF-A4A0BA2E07E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{466E5064-F9A2-4C93-A2FF-A4A0BA2E07E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{466E5064-F9A2-4C93-A2FF-A4A0BA2E07E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B1AD241-8A5B-418D-B731-904C911AB4D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B1AD241-8A5B-418D-B731-904C911AB4D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B1AD241-8A5B-418D-B731-904C911AB4D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B1AD241-8A5B-418D-B731-904C911AB4D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6F058ED-8FC0-42E4-BDE0-AAD735DF16BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6F058ED-8FC0-42E4-BDE0-AAD735DF16BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6F058ED-8FC0-42E4-BDE0-AAD735DF16BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6F058ED-8FC0-42E4-BDE0-AAD735DF16BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{001E56A6-51F2-4E39-B466-3FAD5E6A055E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{001E56A6-51F2-4E39-B466-3FAD5E6A055E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{001E56A6-51F2-4E39-B466-3FAD5E6A055E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{001E56A6-51F2-4E39-B466-3FAD5E6A055E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D974C1BC-C3BD-4A76-AAC9-A13661EFCF57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D974C1BC-C3BD-4A76-AAC9-A13661EFCF57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D974C1BC-C3BD-4A76-AAC9-A13661EFCF57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D974C1BC-C3BD-4A76-AAC9-A13661EFCF57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31815FA0-B53E-4B4C-91FF-4AB783AA07B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31815FA0-B53E-4B4C-91FF-4AB783AA07B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31815FA0-B53E-4B4C-91FF-4AB783AA07B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31815FA0-B53E-4B4C-91FF-4AB783AA07B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1F40D65-9FB4-4B88-B755-1329044462DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1F40D65-9FB4-4B88-B755-1329044462DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1F40D65-9FB4-4B88-B755-1329044462DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1F40D65-9FB4-4B88-B755-1329044462DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{145246C8-C695-4089-8946-0A2396B8C572}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{145246C8-C695-4089-8946-0A2396B8C572}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{145246C8-C695-4089-8946-0A2396B8C572}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{145246C8-C695-4089-8946-0A2396B8C572}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8580960B-1723-4AA8-ABC8-E33345B916F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8580960B-1723-4AA8-ABC8-E33345B916F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8580960B-1723-4AA8-ABC8-E33345B916F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8580960B-1723-4AA8-ABC8-E33345B916F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE2EB8F2-30C2-4D2A-BC9F-AE6C699F09A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE2EB8F2-30C2-4D2A-BC9F-AE6C699F09A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE2EB8F2-30C2-4D2A-BC9F-AE6C699F09A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE2EB8F2-30C2-4D2A-BC9F-AE6C699F09A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB48F6FC-E038-4BBB-8CB7-E2F644FF4C2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB48F6FC-E038-4BBB-8CB7-E2F644FF4C2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB48F6FC-E038-4BBB-8CB7-E2F644FF4C2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB48F6FC-E038-4BBB-8CB7-E2F644FF4C2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDB43388-86EF-4062-8757-D52D0C3DAF3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDB43388-86EF-4062-8757-D52D0C3DAF3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDB43388-86EF-4062-8757-D52D0C3DAF3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDB43388-86EF-4062-8757-D52D0C3DAF3E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B130DC24-5DC3-4769-B09F-95F4F10B27A1}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		SharedModels\SharedModels.projitems*{2b1ad241-8a5b-418d-b731-904c911ab4d4}*SharedItemsImports = 5
+		SharedModels\SharedModels.projitems*{37def9bb-0308-4881-ae80-a8912f4f02cc}*SharedItemsImports = 13
+		SharedModels\SharedModels.projitems*{8580960b-1723-4aa8-abc8-e33345b916f4}*SharedItemsImports = 5
+		SharedModels\SharedModels.projitems*{a6f058ed-8fc0-42e4-bde0-aad735df16bf}*SharedItemsImports = 5
+		SharedModels\SharedModels.projitems*{be2eb8f2-30c2-4d2a-bc9f-ae6c699f09a5}*SharedItemsImports = 5
+	EndGlobalSection
+EndGlobal

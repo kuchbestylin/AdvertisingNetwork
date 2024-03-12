@@ -1,0 +1,102 @@
+﻿@inject DialogService DialogService
+
+<RadzenSteps>
+    <Steps>
+        <RadzenStepsItem>
+            <RadzenRow>
+                <div style="height: 500px">
+                    <RadzenLabel Text="1. Enter Site Address" />
+                    <RadzenTextBox class="d-block" Placeholder="e.g www.almaic.org" @bind-Value="address" />
+                </div>
+            </RadzenRow>
+        </RadzenStepsItem>
+        <RadzenStepsItem>
+            <RadzenColumn>
+                <div style="height: 500px;" class="d-flex flex-column gap-5">
+                    <RadzenColumn>
+                        <RadzenLabel Text="2. Your Website Is? (Select all that apply!)" />
+                        <RadzenDropDown class="d-block" Multiple AllowClear="true" @bind-Value=categoryValues
+                                        Placeholder="Select all that apply" LoadData=@LoadData AllowFiltering="true"
+                                        Data=@categoryData Style="width: 100%; max-width: 400px;" Name="DropDownFilteringLoadData" />
+                    </RadzenColumn>
+                    <RadzenColumn>
+                        <RadzenLabel Text="2b. Where is your business based?" Component="DropDownBindValue" />
+                        <RadzenRadioButtonList @bind-Value=@continent TValue="int" Orientation=Orientation.Vertical Name="DropDownBindValue">
+                            <Items>
+                                <RadzenRadioButtonListItem Text="Asia" Value="1" />
+                                <RadzenRadioButtonListItem Text="America" Value="2" />
+                                <RadzenRadioButtonListItem Text="Australia" Value="3" />
+                                <RadzenRadioButtonListItem Text="Europe" Value="4" />
+                                <RadzenRadioButtonListItem Text="Africa" Value="5" />
+                            </Items>
+                        </RadzenRadioButtonList>
+                    </RadzenColumn>
+                </div>
+            </RadzenColumn>
+        </RadzenStepsItem>
+        <RadzenStepsItem>
+            <RadzenRow>
+                <div style="height: 500px">
+                    <RadzenText Text="Click Finnish to Complete Setup." />
+                    <RadzenButton Text="Finnish" BusyText="Computing" />
+                </div>
+            </RadzenRow>
+@*             <RadzenDataGrid TItem="Hobby"
+                            Data="@hobbies"
+                            @bind-Value="@selectedHobbies"
+                            SelectionMode="DataGridSelectionMode.Multiple"
+                            AllowRowSelectOnRowClick="true">
+                <Columns>
+                    <RadzenDataGridColumn TItem="Hobby" Context="hobby">
+                        <Template>
+                            <RadzenCheckBox Value="selectedHobbies.Contains(hobby)" TValue="bool" />
+                        </Template>
+                    </RadzenDataGridColumn>
+                    <RadzenDataGridColumn TItem="Hobby" Title="Hobby" Property="@nameof(Hobby.HobbyName)" />
+                </Columns>
+            </RadzenDataGrid>
+            <RadzenButton Text="Save" Click="@SaveHobbies" /> *@
+        </RadzenStepsItem>
+    </Steps>
+</RadzenSteps>
+
+@code {
+    int siteVisitorRange = 0;
+    int continent = 0;
+    MonthlyPageViews monthlyPageViewsValue = new MonthlyPageViews { Id = 1, Range = "1-100k Visits" };
+    List<MonthlyPageViews> monthlyPageViewsRange = new List<MonthlyPageViews>()
+    { 
+        new MonthlyPageViews{ Id = 1, Range = "1-100K Visits"},
+        new MonthlyPageViews{ Id = 2, Range = "100K-1M Visits"},
+        new MonthlyPageViews{ Id = 3, Range = "1M-10M Visits"},
+        new MonthlyPageViews{ Id = 4, Range = "10M+ Visits"}
+    };
+    private string address;
+    private List<string> categoryValues = new List<string>();
+    private List<string> categoryData = new List<string>()
+    {
+        "Ecommerce", "Blog", "Gaming"
+    };
+    private List<string> categories = new List<string>()
+    {
+        "Ecommerce", "Blog", "Gaming"
+    };
+
+    // private List<Hobby> hobbies = new List<Hobby>() { new("Games"), new("Sport"), new("Movies"), new("Books"), new("Music") };
+    // private IList<Hobby> selectedHobbies = new List<Hobby>();
+    // private List<Hobby> savedHobbies = new List<Hobby>();
+
+    void LoadData(LoadDataArgs args)
+    {
+        var query = categories.AsQueryable();
+
+        if (!string.IsNullOrEmpty(args.Filter))
+        {
+            query = query.Where(c => c.ToLower().Contains(args.Filter.ToLower()));
+        }
+
+        categories = query.ToList();
+
+        InvokeAsync(StateHasChanged);
+    }
+}
