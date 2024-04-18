@@ -1,9 +1,15 @@
 using CampaignEvaluationConsumerService;
+using CampaignEvaluationConsumerService.Services;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 
-var builder = Host.CreateApplicationBuilder(args);
+var builder = WebApplication.CreateSlimBuilder(args);
 
 builder.AddServiceDefaults();
 builder.Services.AddHostedService<Worker>();
 
-var host = builder.Build();
-host.Run();
+
+var app = builder.Build();
+
+app.UseRouting();
+app.Run();

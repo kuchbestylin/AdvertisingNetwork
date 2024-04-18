@@ -9,11 +9,18 @@
     <Import_RootNamespace>SharedModels</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Models\AdCreative.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Advertiser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Campaign.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\MonthlyPageViews.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\RegisteredWebsite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Report.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\TokenProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IdentityServerSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ITokenService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\TokenService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)advert_event_tracking_module.js" />
   </ItemGroup>
 </Project>

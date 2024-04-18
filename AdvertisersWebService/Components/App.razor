@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="en"
+      data-layout="horizontal"
+      data-topbar="light"
+      data-sidebar="dark"
+      data-sidebar-size="ls"
+      data-sidebar-image="img-2"
+      data-preloader="enable"
+      data-theme="galaxy"
+      data-theme-colors="default"
+      data-sidebar-visibility="show"
+      data-layout-style="default"
+      data-layout-width="fluid"
+      data-bs-theme="light"
+      data-layout-position="fixed"
+      data-body-image="img-3">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="AdvertisersWebService.styles.css" />
+    <link rel="icon" type="image/x-icon" href="favicon-dark.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="favicon-dark.ico">
+    <link rel="stylesheet" href="_content/Radzen.Blazor/css/standard-base.css">
+
+    <!-- Sweet Alert css-->
+    <link href="assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" />
+    <!-- plugin css -->
+    <link href="assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
+    <!-- Layout config Js -->
+    <script src="assets/js/layout.js"></script>
+    <!-- Bootstrap Css -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
+    <!-- custom Css-->
+    <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
+    <HeadOutlet @rendermode="RenderModeForPage" />
+</head>
+
+<body>
+    <Routes @rendermode="RenderModeForPage" />
+    <script src="_framework/blazor.web.js"></script>
+    <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
+    <!-- JAVASCRIPT -->
+    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="assets/libs/node-waves/waves.min.js"></script>
+    <script src="assets/libs/feather-icons/feather.min.js"></script>
+    <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
+    <script src="assets/js/plugins.js"></script>
+
+    <!-- listjs init -->
+    <script src="assets/libs/prismjs/prism.js"></script>
+    <script src="assets/libs/list.js/list.min.js"></script>
+    <script src="assets/libs/list.pagination.js/list.pagination.min.js"></script>
+
+    <!-- Sweet Alerts js -->
+    <script src="assets/libs/sweetalert2/sweetalert2.min.js"></script>
+
+    <!-- Swiper Js -->
+    <script src="assets/libs/swiper/swiper-bundle.min.js"></script>
+
+    <!-- apexcharts -->
+    <script src="assets/libs/apexcharts/apexcharts.min.js"></script>
+
+    <!-- Vector map-->
+    <script src="assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
+    <script src="assets/libs/jsvectormap/maps/world-merc.js"></script>
+
+    <!-- Dashboard init -->
+    <script src="assets/js/pages/dashboard-analytics.init.js"></script>
+
+    <!-- CRM js -->
+    <script src="assets/js/pages/dashboard-crypto.init.js"></script>
+    <script src="assets/js/pages/modal.init.js"></script>
+    <!-- App js -->
+    <script src="assets/js/pages/crypto-kyc.init.js"></script>
+    <script src="assets/js/pages/form-wizard.init.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+
+</html>
+
+@code {
+    [CascadingParameter]
+    private HttpContext HttpContext { get; set; } = default!;
+
+    private IComponentRenderMode? RenderModeForPage => HttpContext.Request.Path.StartsWithSegments("/Account")
+        ? null
+        : InteractiveServer;
+}
+

@@ -1,0 +1,86 @@
+﻿@inject DialogService DialogService
+
+@code {
+    async Task ShowDialogWithCustomCssClasses()
+    {
+        await DialogService.OpenAsync("Add a new Site", ds =>
+    @<div>
+        <AddSiteSteps />
+    </div>
+    , new DialogOptions()
+    {
+        CssClass = "",
+        WrapperCssClass = "custom-dialog-wrapper-class",
+        CloseDialogOnOverlayClick = false,
+        Style = "width: 100%; height: 100%; padding: 70px;",
+        ShowClose = true,
+        CloseDialogOnEsc = false,
+        AutoFocusFirstElement = true,
+        Resizable = true,
+    });
+    }
+}
+<div class="col-lg-6">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title mb-0">Your Sites</h4>
+        </div><!-- end card header -->
+
+        <div class="card-body">
+            <div class="row g-4 mb-3">
+                <div class="col-sm-auto">
+                    <div>
+                        <a href="newadvert" class="btn btn-success add-btn"><i class="ri-add-line align-bottom me-1"></i> New Campaign</a>
+                        <button class="btn btn-soft-danger"><i class="ri-delete-bin-2-line"></i></button>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="d-flex justify-content-sm-end">
+                        <div class="search-box ms-2">
+                            <input type="text" class="form-control search" placeholder="Search...">
+                            <i class="ri-search-line search-icon"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <RadzenDataGrid TItem="RegisteredWebsite" Data="@data">
+                <EmptyTemplate>
+                    <p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
+                </EmptyTemplate>
+                <Columns>
+                    <RadzenDataGridColumn TItem="RegisteredWebsite" Property="Id" Title="Sn" Width="50px" TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn TItem="RegisteredWebsite" Property="Address" Title="Name">
+                        <Template Context="website">
+                            <div>
+                                <a href="site-dashboard" class="text-decoration-underline">@website.Address</a>
+                            </div>
+                        </Template>
+                    </RadzenDataGridColumn>
+                    <RadzenDataGridColumn TItem="RegisteredWebsite" Property="IsActive" Title="Ads Enabled">
+                        <Template Context="website">
+                            <div>
+                                <RadzenSwitch @bind-Value=@website.IsActive InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "Switch value" }})" />
+                            </div>
+                        </Template>
+                    </RadzenDataGridColumn>
+                    <RadzenDataGridColumn TItem="RegisteredWebsite" Property="ExcludedPages" Title="Excluded Pages">
+                        <Template Context="website">
+                            <div>
+                                @website.ExcludedPages.Count()
+                            </div>
+                        </Template>
+                    </RadzenDataGridColumn>
+                </Columns>
+            </RadzenDataGrid>
+        </div><!-- end card -->
+    </div>
+    <!-- end col -->
+</div>
+
+@code {
+    string emptyText = "No Items to display!";
+    List<RegisteredWebsite> data = new List<RegisteredWebsite>()
+    {
+        new RegisteredWebsite{ Id = 1, Address = "www.almaic.com", ExcludedPages = new List<string>(), IsActive = true}
+    };
+}

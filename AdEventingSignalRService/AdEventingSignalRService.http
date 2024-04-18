@@ -1,0 +1,6 @@
+@AdEventingSignalRService_HostAddress = http://localhost:5186
+
+GET {{AdEventingSignalRService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

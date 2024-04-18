@@ -1,0 +1,206 @@
+﻿@page "/newadvert"
+@inject IJSRuntime jsRuntime
+
+
+<div class="row">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title mb-0">Ad Campaign Setup</h4>
+        </div><!-- end card header -->
+        <div class="card-body">
+            <form action="#" class="form-steps" autocomplete="off">
+
+
+                <div class="d-flex flex-column flex-lg-row justify-content-between">
+                    <div class="flex-fill">
+                        <RadzenSteps Change="OnChange" SelectedIndex="selectedIndex">
+                            <Steps>
+                                <RadzenStepsItem Disabled="freezePrevious" Text="General Information">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="steparrow-gen-info-campaignname-input">Campaign Name</label>
+                                                <input type="text" class="form-control" id="steparrow-gen-info-campaignname-input" placeholder="Enter Campaign Name" required>
+                                                <div class="invalid-feedback">Please Name your Campaign!</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="steparrow-gen-info-advertstyle-input">Advert Style</label>
+                                                <select class="form-control" id="steparrow-gen-info-advertstyle-input" data-choices name="choices-single-default">
+                                                    <option value="">This is a placeholder</option>
+                                                    <option value="Choice 1">Banner Ads</option>
+                                                    <option value="Choice 2">Popup Ads</option>
+                                                    <option value="Choice 2">Takeover Ads</option>
+                                                    <option value="Choice 3">Redirects</option>
+                                                    <option value="Choice 4">Sidebar Ads</option>
+                                                    <option value="Choice 4">Native Ads</option>
+                                                    <option value="Choice 4">Sticky Ads</option>
+                                                    <option value="Choice 4">Video Ads</option>
+                                                </select>
+                                                <div class="invalid-feedback">Please select Advert Style!</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="steparrow-gen-info-username-input">Specify Tags</label>
+                                                <input type="text" class="form-control" id="steparrow-gen-info-username-input" placeholder="E.G recipe, news,cellphone, semiconductor" required>
+                                                <div class="invalid-feedback">Please provide some tags!</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="steparrow-gen-info-username-input">Ad Safety Components</label>
+                                                <select class="form-control" data-choices data-choices-removeItem multiple name="choices-single-default" id="choices-single-default">
+                                                    <option value="">Select all that match</option>
+                                                    <option value="Choice 1">General Audience</option>
+                                                    <option value="Choice 1">For Children</option>
+                                                    <option value="Choice 1">Violence</option>
+                                                    <option value="Choice 2">Strong Language</option>
+                                                    <option value="Choice 3">NSFW</option>
+                                                    <option value="Choice 4">LGBTQ</option>
+                                                    <option value="Choice 5">Substance</option>
+                                                    <option value="Choice 6">Nudity</option>
+                                                    <option value="Choice 7">Sex</option>
+                                                    <option value="Choice 8">Adult Accessory</option>
+                                                    <option value="Choice 8">Exorcism</option>
+                                                </select>
+                                                <div class="invalid-feedback">Please apply safety component(s)!</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="steparrow-gen-info-username-input">Payment Type</label>
+                                                <select class="form-control" data-choices name="choices-single-default" id="choices-single-default">
+                                                    <option value="">Select a payment type</option>
+                                                    <option value="Choice 1">Cost Per Click (CPC)</option>
+                                                    <option value="Choice 1">Cost Per Ten Impressions (CPT)</option>
+                                                </select>
+                                                <div class="invalid-feedback">Please Choose Payment Type!</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="steparrow-gen-info-username-input">Target Sites</label>
+                                                <select class="form-control" data-choices data-choices-removeItem multiple name="choices-single-default" id="choices-single-default">
+                                                    <option value="">Select all that apply</option>
+                                                    <option value="Choice 1">Any</option>
+                                                    <option value="Choice 1">Blogs</option>
+                                                    <option value="Choice 1">News</option>
+                                                    <option value="Choice 2">Retail</option>
+                                                    <option value="Choice 3">Adult</option>
+                                                    <option value="Choice 4">Video Streaming</option>
+                                                    <option value="Choice 5">E-Learning</option>
+                                                    <option value="Choice 6">Social</option>
+                                                </select>
+                                                <div class="invalid-feedback">Please select target site(s)!</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <div class="form-check form-switch form-switch-custom form-switch-success">
+                                                    <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck11">
+                                                    <label class="form-check-label" for="SwitchCheck11">Use a daily budget</label>
+                                                </div>
+                                                <div class="d-flex gap-3 align-items-center ps-2">
+                                                    <RadzenSlider @bind-Value=@value TValue="int" Min="1" Max="100" />
+                                                    <span class="example-val mt-2">@value coins</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <div class="form-check form-switch form-switch-custom form-switch-success">
+                                                    <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck11">
+                                                    <label class="form-check-label" for="SwitchCheck11">Set Maximum Daily Impressions</label>
+                                                </div>
+                                                <div class="d-flex gap-3 align-items-center ps-2">
+                                                    <RadzenSlider @bind-Value=@value TValue="int" Min="1" Max="100" />
+                                                    <span class="example-val mt-2">@value coins</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <div class="form-check form-switch form-switch-custom form-switch-success">
+                                                    <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck11">
+                                                    <label class="form-check-label" for="SwitchCheck11">Set Max Bidding Amount For Ad Space</label>
+                                                </div>
+                                                <div class="d-flex gap-3 align-items-center ps-2">
+                                                    <RadzenSlider @bind-Value=@value TValue="int" Min="1" Max="100" />
+                                                    <span class="example-val mt-2">@value coins</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </RadzenStepsItem>
+                                <RadzenStepsItem Text="Ad Creative">
+                                    <div>
+                                        <div class="mb-3">
+                                            <label class="form-label" for="steparrow-gen-info-username-input">Select Advert Orientation</label>
+                                            <select class="form-control" data-choices data-choices-removeItem multiple name="choices-single-default" id="choices-single-default">
+                                                <option value="Orientation 1">Box</option>
+                                                <option value="Orientation 2">Horizontal</option>
+                                                <option value="Orientation 3">Vertical</option>
+                                            </select>
+                                            <div class="invalid-feedback">Please select target site(s)!</div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="formFile" class="form-label">Upload Product/Service Display Image</label>
+                                            <input class="form-control" type="file" id="formFile" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label" for="steparrow-gen-info-campaignname-input"> Enter your Call-To-Action heading</label>
+                                            <input type="text" class="form-control" id="steparrow-gen-info-campaignname-input" placeholder="Get the most simplest html builder" required>
+                                            <div class="invalid-feedback">Please write a call to action!</div>
+                                        </div>
+                                        <div>
+                                            <label class="form-label" for="des-info-description-input">Describe your offer</label>
+                                            <textarea class="form-control" placeholder="Get 60% Off on a Life-Time Deal. 60days of Hassle free money-back guarantee." id="des-info-description-input" rows="3" required></textarea>
+                                            <div class="invalid-feedback">Please enter a description</div>
+                                        </div>
+                                    </div>
+                                </RadzenStepsItem>
+                            </Steps>
+                        </RadzenSteps>
+                    </div>
+                    <!-- end tab content -->
+                    <div class="col-4 p-2">
+                        <div class="d-flex h-100 flex-column justify-content-start align-items-center" style="border: 1px solid rgba(0,0,0,0.04)">
+                            <h4>Preview</h4>
+
+                            <article class="p-2" style="border: 1px solid gray; height: 300px; width: 250px">
+                                <div>
+                                    <img src="placeholder.png" alt="This is your ad display image" />
+                                </div>
+                                <div>
+                                    <strong>Your heading comes here</strong>
+                                    <p>
+                                        Your description comes here. ------- 
+                                        -- - - ------ --- - ---- - -- - -  
+                                        -- - - - ------ ----  
+                                    </p>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- end card body -->
+    </div>
+    <!-- end card -->
+</div>
+<!-- end row -->
+@code {
+    int selectedIndex = 0;
+    bool freezePrevious = false;
+    int value = 1;
+    int show = 100;
+    public void OnChange(int index)
+    {
+        selectedIndex = 1;
+        freezePrevious = true;
+
+    }
+}

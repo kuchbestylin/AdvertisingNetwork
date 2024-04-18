@@ -1,0 +1,52 @@
+﻿@inherits LayoutComponentBase
+@inject IJSRuntime jsRuntime
+
+<!-- Begin page -->
+<div id="layout-wrapper">
+
+    <Header />
+    <RemoveNotificationModal />
+    <SideBar />
+    <!-- Vertical Overlay-->
+    <div class="vertical-overlay"></div>
+
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                @Body
+
+            </div>
+            <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+
+        <Footer />
+    </div>
+    <!-- end main content-->
+
+</div>
+<!-- END layout-wrapper -->
+
+<ThemeSettings />
+
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>
+<RadzenComponents />
+@code{
+    protected override async Task OnAfterRenderAsync(bool firstRender){
+        await jsRuntime.InvokeVoidAsync("initDashboardAnalytics", null);
+        await jsRuntime.InvokeVoidAsync("initDashboardCrypto", null);
+        await jsRuntime.InvokeVoidAsync("initFormWizard", null);
+        // await jsRuntime.InvokeVoidAsync("initModalJs", null);
+        // await jsRuntime.InvokeVoidAsync("injectListJs", null);
+        await jsRuntime.InvokeVoidAsync("initAppJs", null);
+    }
+}

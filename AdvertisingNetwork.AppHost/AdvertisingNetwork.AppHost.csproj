@@ -13,9 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AdEventingSignalRService\AdEventingSignalRService.csproj" />
     <ProjectReference Include="..\AdProviderService\AdProviderService.csproj" />
     <ProjectReference Include="..\AdSelectorService\AdSelectorService.csproj" />
     <ProjectReference Include="..\AdService\AdService.csproj" />
+    <ProjectReference Include="..\AdvertisersWebService\AdvertisersWebService.csproj" />
     <ProjectReference Include="..\BiddingService\BiddingService.csproj" />
     <ProjectReference Include="..\BlazorApp1\BlazorApp1.csproj" />
     <ProjectReference Include="..\BlazorApp2\BlazorApp2.csproj" />
@@ -23,6 +25,7 @@
     <ProjectReference Include="..\ContentService\ContentService.csproj" />
     <ProjectReference Include="..\DataService\DataService.csproj" />
     <ProjectReference Include="..\IndentityServer\IndentityServer.csproj" />
+    <ProjectReference Include="..\TestPublisherProject\TestPublisherProject.csproj" />
     <ProjectReference Include="..\Test\Test.csproj" />
     <ProjectReference Include="..\weatherapi\weatherapi.csproj" />
   </ItemGroup>
