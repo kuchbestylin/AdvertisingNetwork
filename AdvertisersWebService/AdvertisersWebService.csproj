@@ -3791,7 +3791,7 @@
     <Content Update="Components\Pages\Reports.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
-    <Content Update="Components\Pages\SiteDashboard.razor">
+    <Content Update="Components\Pages\CampaignDashboard.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
     <Content Update="Components\Pages\Weather.razor">

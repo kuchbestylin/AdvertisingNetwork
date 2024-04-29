@@ -22,10 +22,10 @@
     });
     }
 }
-<div class="col-lg-6">
+<div class="">
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title mb-0">Your Sites</h4>
+            <h4 class="card-title mb-0">Your Campaigns</h4>
         </div><!-- end card header -->
 
         <div class="card-body">
@@ -45,7 +45,7 @@
                     </div>
                 </div>
             </div>
-            <RadzenDataGrid TItem="RegisteredWebsite" Data="@registeredWebsites">
+            <RadzenDataGrid TItem="Campaign" Data="@userCampaigns">
                 <EmptyTemplate>
                     <p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;" class="@((progressVisible) ? "d-none" : "d-block")">No records to display.</p>
                     <div class="d-flex justify-content-center">
@@ -53,28 +53,31 @@
                     </div>
                 </EmptyTemplate>
                 <Columns>
-                    <RadzenDataGridColumn TItem="RegisteredWebsite" Property="Id" Title="Sn" Width="50px" TextAlign="TextAlign.Center" />
-                    <RadzenDataGridColumn TItem="RegisteredWebsite" Property="Domain" Title="Name">
-                        <Template Context="website">
+                    <RadzenDataGridColumn TItem="Campaign" Property="Id" Title="Sn" Width="50px" TextAlign="TextAlign.Center" />
+                    <RadzenDataGridColumn TItem="Campaign" Property="Name" Title="Name">
+                        <Template Context="campaign">
                             <div>
-                                <a href="site-dashboard" class="text-decoration-underline">@website.Domain</a>
+                                <a href=@($"site-dashboard/{campaign.Id}") class="text-decoration-underline">@campaign.Name</a>
                             </div>
                         </Template>
                     </RadzenDataGridColumn>
-                    <RadzenDataGridColumn TItem="RegisteredWebsite" Property="IsActive" Title="Ads Enabled">
-                        <Template Context="website">
+                    <RadzenDataGridColumn TItem="Campaign" Property="IsActive" Title="Ads Enabled">
+                        <Template Context="campaign">
                             <div>
-                                <RadzenSwitch @bind-Value=@website.AdsEnabled InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "Switch value" }})" />
+                                <RadzenSwitch @bind-Value=@campaign.IsActive InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "Switch value" }})" />
                             </div>
                         </Template>
                     </RadzenDataGridColumn>
-                    <RadzenDataGridColumn TItem="RegisteredWebsite" Property="ExcludedPages" Title="Excluded Pages">
-                        <Template Context="website">
+                    <RadzenDataGridColumn TItem="Campaign" Property="ConversionsEnabled" Title="Conversions Enabled?" />
+                    <RadzenDataGridColumn TItem="Campaign" Property="PaymentType" Title="Payment Type" />
+                    <RadzenDataGridColumn TItem="Campaign" Property="Created" Title="Conversions Enabled?">
+                        <Template Context="campaign">
                             <div>
-                                @website.ExcludedPages.Count()
+                                @campaign.Created!.Value.ToShortDateString()
                             </div>
                         </Template>
                     </RadzenDataGridColumn>
+                    <RadzenDataGridColumn TItem="Campaign" Property="AdvertLinkAddress" Title="Redirect Website" />
                 </Columns>
             </RadzenDataGrid>
         </div><!-- end card -->
@@ -85,24 +88,34 @@
 @code {
     string emptyText = "No Items to display!";
     static bool progressVisible = true;
-    List<RegisteredWebsite>? registeredWebsites = new List<RegisteredWebsite>();
+    List<Campaign>? userCampaigns = new List<Campaign>();
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
-        try
+        if (firstRender)
         {
-            var user = await dataStore.GetUserAsync(localUser);
-            if (user is not null)
+            try
             {
-                localUser.Id = user.Id;
-                registeredWebsites = await dataStore.GetSitesAsync(user.Id);
-            }
+                var user = await dataStore.GetUserAsync(localUser);
+                if (user is not null)
+                {
+                    localUser.Id = user.Id;
+                    try
+                    {
+                        userCampaigns = await dataStore.GetCampaignsAsync(user.Id);
+                    }
+                    catch (Exception ex)
+                    {
 
-            progressVisible = false;
-            StateHasChanged();
-        }
-        catch (Exception ex)
-        {
-            progressVisible = false;
+                    }
+                }
+
+                progressVisible = false;
+                StateHasChanged();
+            }
+            catch (Exception ex)
+            {
+                progressVisible = false;
+            }
         }
 
     }

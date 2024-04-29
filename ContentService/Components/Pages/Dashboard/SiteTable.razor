@@ -2,26 +2,6 @@
 @inject User localUser
 @inject IDataStore dataStore
 
-@code {
-    async Task ShowDialogWithCustomCssClasses()
-    {
-        await DialogService.OpenAsync("Add a new Site", ds =>
-@<div>
-        <AddSiteSteps />
-    </div>
-    , new DialogOptions()
-        {
-            CssClass = "",
-            WrapperCssClass = "custom-dialog-wrapper-class",
-            CloseDialogOnOverlayClick = false,
-            Style = "width: 100%; height: 100%; padding: 70px;",
-            ShowClose = true,
-            CloseDialogOnEsc = false,
-            AutoFocusFirstElement = true,
-            Resizable = true,
-        });
-    }
-}
 <div class="col-lg-6">
     <div class="card">
         <div class="card-header">
@@ -32,7 +12,7 @@
             <div class="row g-4 mb-3">
                 <div class="col-sm-auto">
                     <div>
-                        <button type="button" class="btn btn-success add-btn" @onclick="ShowDialogWithCustomCssClasses"><i class="ri-add-line align-bottom me-1"></i> Add</button>
+                        <button type="button" class="btn btn-success add-btn" @onclick="ShowInlineDialog"><i class="ri-add-line align-bottom me-1"></i> Add</button>
                         <button class="btn btn-soft-danger"><i class="ri-delete-bin-2-line"></i></button>
                     </div>
                 </div>
@@ -86,16 +66,31 @@
     string emptyText = "No Items to display!";
     static bool progressVisible = true;
     List<RegisteredWebsite>? registeredWebsites = new List<RegisteredWebsite>();
-    protected async override Task OnAfterRenderAsync(bool firstRender)
+    protected async override Task OnInitializedAsync()
     {
         var user = await dataStore.GetUserAsync(localUser);
         if (user is not null)
         {
             localUser.Id = user.Id;
-            registeredWebsites = await dataStore.GetSitesAsync(user.Id);
+            try
+            {
+                registeredWebsites = await dataStore.GetSitesAsync(user.Id);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
 
         progressVisible = false;
         StateHasChanged();
+    }
+
+    async Task ShowInlineDialog()
+    {
+        var result = await DialogService.OpenAsync("Add a new Site", ds =>
+    @<RadzenStack Gap="1.5rem">
+        <AddSiteSteps />
+    </RadzenStack>, new DialogOptions() { Draggable = true, Resizable = true});
     }
 }

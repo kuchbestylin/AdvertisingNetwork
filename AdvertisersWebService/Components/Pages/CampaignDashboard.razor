@@ -1,0 +1,24 @@
+﻿@page "/site-dashboard/{id}"
+
+<PageTitle>Campaign Dashboard</PageTitle>
+
+<PageRoute Title="" />
+
+<AdvancedPopup />
+
+<div class="row mt-5">
+    <_4MetricCards />
+    <PortfolioOverview />
+    <TopPages />
+</div> <!-- end row-->
+
+@code{
+    [Parameter]
+    public RegisteredWebsite Site {get; set;}
+    [Parameter]
+    public string id { get; set; }
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        return base.OnAfterRenderAsync(firstRender);
+    }
+}

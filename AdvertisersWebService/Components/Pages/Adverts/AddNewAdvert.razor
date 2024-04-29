@@ -264,7 +264,10 @@
 
         var result = await datastore.PostCampaignAsync(newCampaign, "wwwroot/Uploads/ad.jpg");
 
-
+        if(result is not null)
+        {
+            
+        }
 
         alert.Notify(NotificationSeverity.Success, "");
     }
