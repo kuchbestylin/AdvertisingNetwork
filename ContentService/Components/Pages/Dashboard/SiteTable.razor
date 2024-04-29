@@ -1,4 +1,6 @@
 ﻿@inject DialogService DialogService
+@inject User localUser
+@inject IDataStore dataStore
 
 @code {
     async Task ShowDialogWithCustomCssClasses()
@@ -43,23 +45,26 @@
                     </div>
                 </div>
             </div>
-            <RadzenDataGrid TItem="RegisteredWebsite" Data="@data">
+            <RadzenDataGrid TItem="RegisteredWebsite" Data="@registeredWebsites">
                 <EmptyTemplate>
-                    <p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No records to display.</p>
+                    <p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;" class="@((progressVisible) ? "d-none" : "d-block")">No records to display.</p>
+                    <div class="d-flex justify-content-center">
+                        <RadzenProgressBarCircular Value="100" ShowValue="false" Visible="progressVisible" Mode="ProgressBarMode.Indeterminate" />
+                    </div>
                 </EmptyTemplate>
                 <Columns>
                     <RadzenDataGridColumn TItem="RegisteredWebsite" Property="Id" Title="Sn" Width="50px" TextAlign="TextAlign.Center" />
-                    <RadzenDataGridColumn TItem="RegisteredWebsite" Property="Address" Title="Name">
+                    <RadzenDataGridColumn TItem="RegisteredWebsite" Property="Domain" Title="Name">
                         <Template Context="website">
                             <div>
-                                <a href="site-dashboard" class="text-decoration-underline">@website.Address</a>
+                                <a href="site-dashboard" class="text-decoration-underline">@website.Domain</a>
                             </div>
                         </Template>
                     </RadzenDataGridColumn>
                     <RadzenDataGridColumn TItem="RegisteredWebsite" Property="IsActive" Title="Ads Enabled">
                         <Template Context="website">
                             <div>
-                                <RadzenSwitch @bind-Value=@website.IsActive InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "Switch value" }})" />
+                                <RadzenSwitch @bind-Value=@website.AdsEnabled InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "Switch value" }})" />
                             </div>
                         </Template>
                     </RadzenDataGridColumn>
@@ -79,8 +84,18 @@
 
 @code {
     string emptyText = "No Items to display!";
-    List<RegisteredWebsite> data = new List<RegisteredWebsite>()
+    static bool progressVisible = true;
+    List<RegisteredWebsite>? registeredWebsites = new List<RegisteredWebsite>();
+    protected async override Task OnAfterRenderAsync(bool firstRender)
     {
-        new RegisteredWebsite{ Id = 1, Address = "www.almaic.com", ExcludedPages = new List<string>(), IsActive = true}
-    };
+        var user = await dataStore.GetUserAsync(localUser);
+        if (user is not null)
+        {
+            localUser.Id = user.Id;
+            registeredWebsites = await dataStore.GetSitesAsync(user.Id);
+        }
+
+        progressVisible = false;
+        StateHasChanged();
+    }
 }

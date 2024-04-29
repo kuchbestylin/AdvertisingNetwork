@@ -1,17 +1,20 @@
 ﻿@page "/newadvert"
+@using System.IO
 @inject IJSRuntime jsRuntime
-
+@inject IDataStore datastore
+@inject User localUser
+@inject IWebHostEnvironment environment
+@inject NotificationService alert
 
 <div class="row">
-    <div class="card">
+    <div class="card p-3" style="box-shadow: 0px 0px 5px silver inset; max-width: 1400px; overflow: -moz-hidden-unscrollable">
         <div class="card-header">
             <h4 class="card-title mb-0">Ad Campaign Setup</h4>
         </div><!-- end card header -->
         <div class="card-body">
-            <form action="#" class="form-steps" autocomplete="off">
 
-
-                <div class="d-flex flex-column flex-lg-row justify-content-between">
+            <EditForm Model="newCampaign" OnInvalidSubmit="OnInvalidCampaign" OnValidSubmit="PushCampaign">
+                <div class="d-flex flex-column gap-5 flex-lg-row justify-content-between">
                     <div class="flex-fill">
                         <RadzenSteps Change="OnChange" SelectedIndex="selectedIndex">
                             <Steps>
@@ -20,23 +23,23 @@
                                         <div class="col-lg-6">
                                             <div class="mb-3">
                                                 <label class="form-label" for="steparrow-gen-info-campaignname-input">Campaign Name</label>
-                                                <input type="text" class="form-control" id="steparrow-gen-info-campaignname-input" placeholder="Enter Campaign Name" required>
+                                                <input type="text" @bind-value="newCampaign.Name" class="form-control" id="steparrow-gen-info-campaignname-input" placeholder="Enter Campaign Name" required>
                                                 <div class="invalid-feedback">Please Name your Campaign!</div>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="mb-3">
                                                 <label class="form-label" for="steparrow-gen-info-advertstyle-input">Advert Style</label>
-                                                <select class="form-control" id="steparrow-gen-info-advertstyle-input" data-choices name="choices-single-default">
+                                                <select class="form-control" @bind=newCampaign.AdvertStyle id="steparrow-gen-info-advertstyle-input" data-choices name="choices-single-default">
                                                     <option value="">This is a placeholder</option>
-                                                    <option value="Choice 1">Banner Ads</option>
-                                                    <option value="Choice 2">Popup Ads</option>
-                                                    <option value="Choice 2">Takeover Ads</option>
-                                                    <option value="Choice 3">Redirects</option>
-                                                    <option value="Choice 4">Sidebar Ads</option>
-                                                    <option value="Choice 4">Native Ads</option>
-                                                    <option value="Choice 4">Sticky Ads</option>
-                                                    <option value="Choice 4">Video Ads</option>
+                                                    <option value="BannerAd">Banner Ads</option>
+                                                    <option value="PopupAd">Popup Ads</option>
+                                                    <option value="TakeoverAd">Takeover Ads</option>
+                                                    <option value="Redirects">Redirects</option>
+                                                    <option value="SidebarAds">Sidebar Ads</option>
+                                                    <option value="NativeAds">Native Ads</option>
+                                                    <option value="StickyAds">Sticky Ads</option>
+                                                    <option value="VideoAds">Video Ads</option>
                                                 </select>
                                                 <div class="invalid-feedback">Please select Advert Style!</div>
                                             </div>
@@ -44,34 +47,38 @@
                                         <div class="col-lg-6">
                                             <div class="mb-3">
                                                 <label class="form-label" for="steparrow-gen-info-username-input">Specify Tags</label>
-                                                <input type="text" class="form-control" id="steparrow-gen-info-username-input" placeholder="E.G recipe, news,cellphone, semiconductor" required>
+                                                <input type="text" @bind-value=newCampaign.Tags class="form-control" id="steparrow-gen-info-username-input" placeholder="E.G recipe, news,cellphone, semiconductor" required>
                                                 <div class="invalid-feedback">Please provide some tags!</div>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="mb-3">
                                                 <label class="form-label" for="steparrow-gen-info-username-input">Ad Safety Components</label>
-                                                <select class="form-control" data-choices data-choices-removeItem multiple name="choices-single-default" id="choices-single-default">
-                                                    <option value="">Select all that match</option>
-                                                    <option value="Choice 1">General Audience</option>
-                                                    <option value="Choice 1">For Children</option>
-                                                    <option value="Choice 1">Violence</option>
-                                                    <option value="Choice 2">Strong Language</option>
-                                                    <option value="Choice 3">NSFW</option>
-                                                    <option value="Choice 4">LGBTQ</option>
-                                                    <option value="Choice 5">Substance</option>
-                                                    <option value="Choice 6">Nudity</option>
-                                                    <option value="Choice 7">Sex</option>
-                                                    <option value="Choice 8">Adult Accessory</option>
-                                                    <option value="Choice 8">Exorcism</option>
-                                                </select>
+                                                <RadzenDropDown @bind-Value=@newCampaign.SafetyComponents Data=@controls Multiple=true 
+                                                    AllowClear=true Placeholder="Select products" Style="width: 100%; max-width: 400px;" />
+                                                @code{
+                                                    List<string> controls = new List<string>()
+                                                    {
+                                                        "GeneralAudience",
+                                                        "ForChildren",
+                                                        "Violence",
+                                                        "StrongLanguage",
+                                                        "NSFW",
+                                                        "LGBTQ",
+                                                        "Substance",
+                                                        "Nudity",
+                                                        "Sex",
+                                                        "AdultAccessory",
+                                                        "Exorcism"
+                                                    };
+                                                }
                                                 <div class="invalid-feedback">Please apply safety component(s)!</div>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="mb-3">
                                                 <label class="form-label" for="steparrow-gen-info-username-input">Payment Type</label>
-                                                <select class="form-control" data-choices name="choices-single-default" id="choices-single-default">
+                                                <select class="form-control" data-choices @bind=newCampaign.PaymentType name="choices-single-default" id="choices-single-default">
                                                     <option value="">Select a payment type</option>
                                                     <option value="Choice 1">Cost Per Click (CPC)</option>
                                                     <option value="Choice 1">Cost Per Ten Impressions (CPT)</option>
@@ -82,53 +89,63 @@
                                         <div class="col-lg-6">
                                             <div class="mb-3">
                                                 <label class="form-label" for="steparrow-gen-info-username-input">Target Sites</label>
-                                                <select class="form-control" data-choices data-choices-removeItem multiple name="choices-single-default" id="choices-single-default">
-                                                    <option value="">Select all that apply</option>
-                                                    <option value="Choice 1">Any</option>
-                                                    <option value="Choice 1">Blogs</option>
-                                                    <option value="Choice 1">News</option>
-                                                    <option value="Choice 2">Retail</option>
-                                                    <option value="Choice 3">Adult</option>
-                                                    <option value="Choice 4">Video Streaming</option>
-                                                    <option value="Choice 5">E-Learning</option>
-                                                    <option value="Choice 6">Social</option>
-                                                </select>
+                                                <RadzenDropDown @bind-Value=@newCampaign.TargetSites Data=@targetSites AllowClear=true  Multiple="true"
+                                                    Placeholder="Select products" Style="width: 100%; max-width: 400px;" />
+                                                @code{
+                                                    List<string> targetSites = new List<string>()
+                                                    {
+                                                        "Any",
+                                                        "Blogs",
+                                                        "News",
+                                                        "Retail",
+                                                        "Adult",
+                                                        "VideoStreaming",
+                                                        "E-Learning",
+                                                        "Social",
+                                                    };
+                                                }
                                                 <div class="invalid-feedback">Please select target site(s)!</div>
                                             </div>
                                         </div>
+                                        <style>
+                                            .has-display-anim{
+                                                display: none;
+                                                transition: display 2s;
+                                            }
+                                        </style>
                                         <div class="col-lg-6">
                                             <div class="mb-3">
                                                 <div class="form-check form-switch form-switch-custom form-switch-success">
-                                                    <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck11">
+                                                    <input class="form-check-input" @bind-value=newCampaign.DailyBudgetSet type="checkbox" role="switch" id="SwitchCheck11">
                                                     <label class="form-check-label" for="SwitchCheck11">Use a daily budget</label>
                                                 </div>
-                                                <div class="d-flex gap-3 align-items-center ps-2">
-                                                    <RadzenSlider @bind-Value=@value TValue="int" Min="1" Max="100" />
-                                                    <span class="example-val mt-2">@value coins</span>
+                                                <div class="@(newCampaign.DailyBudgetSet ? "d-block" : "d-none") d-flex gap-3 align-items-center ps-2">
+                                                    <RadzenSlider @bind-Value=@newCampaign.DailyBudget TValue="int" Min="1" Max="100" />
+                                                    <span class="example-val mt-2">@newCampaign.DailyBudget</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 has-roll-anim">
                                             <div class="mb-3">
                                                 <div class="form-check form-switch form-switch-custom form-switch-success">
-                                                    <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck11">
+                                                    <input class="form-check-input" @bind-value=@newCampaign.MaximumDailyImpressionsSet type="checkbox" role="switch" id="SwitchCheck11">
                                                     <label class="form-check-label" for="SwitchCheck11">Set Maximum Daily Impressions</label>
                                                 </div>
-                                                <div class="d-flex gap-3 align-items-center ps-2">
-                                                    <RadzenSlider @bind-Value=@value TValue="int" Min="1" Max="100" />
-                                                    <span class="example-val mt-2">@value coins</span>
+                                                <div class="@(newCampaign.MaximumDailyImpressionsSet ? "d-block" : "d-none") d-flex gap-3 align-items-center ps-2">
+                                                    <RadzenSlider @bind-Value=@newCampaign.MaximumDailyImpressions TValue="int" Min="1" Max="100" />
+                                                    <span class="example-val mt-2">@newCampaign.MaximumDailyImpressions</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 has-roll-anim">
                                             <div class="mb-3">
                                                 <div class="form-check form-switch form-switch-custom form-switch-success">
-                                                    <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck11">
+                                                    <input class="form-check-input" @bind-value=@newCampaign.MaxBiddingAmountSet type="checkbox" role="switch" id="SwitchCheck11">
                                                     <label class="form-check-label" for="SwitchCheck11">Set Max Bidding Amount For Ad Space</label>
                                                 </div>
-                                                <div class="d-flex gap-3 align-items-center ps-2">
-                                                    <RadzenSlider @bind-Value=@value TValue="int" Min="1" Max="100" />
-                                                    <span class="example-val mt-2">@value coins</span>
+                                                <div class="@(newCampaign.MaxBiddingAmountSet ? "d-block" : "d-none") d-flex gap-3 align-items-center ps-2">
+                                                    <RadzenSlider @bind-Value=@newCampaign.MaxBiddingAmount TValue="int" Min="1" Max="100" />
+                                                    <span class="example-val mt-2">@newCampaign.MaxBiddingAmount</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -136,28 +153,41 @@
                                 </RadzenStepsItem>
                                 <RadzenStepsItem Text="Ad Creative">
                                     <div>
-                                        <div class="mb-3">
-                                            <label class="form-label" for="steparrow-gen-info-username-input">Select Advert Orientation</label>
-                                            <select class="form-control" data-choices data-choices-removeItem multiple name="choices-single-default" id="choices-single-default">
-                                                <option value="Orientation 1">Box</option>
-                                                <option value="Orientation 2">Horizontal</option>
-                                                <option value="Orientation 3">Vertical</option>
-                                            </select>
-                                            <div class="invalid-feedback">Please select target site(s)!</div>
+                                        <div class="mb-3 d-flex flex-column">
+                                            <label class="form-label" for="steparrow-gen-info-username-input">Orientation</label>
+                                            <RadzenDropDown @bind-Value=@newCampaign.Orientation Data=@orientations AllowClear=true Placeholder="Select products" 
+                                                Change="AdOrientationChange" Style="width: 100%; max-width: 400px;" />
+                                                @code{
+                                                    List<string> orientations = new List<string>()
+                                                    {
+                                                        "Box",
+                                                        "Vertical",
+                                                        "Horizontal",
+                                                    };
+                                                }
+                                            <div class="invalid-feedback">Please select orientation!</div>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="formFile" class="form-label">Upload Product/Service Display Image</label>
-                                            <input class="form-control" type="file" id="formFile" />
+                                            <label class="form-label" for="steparrow-gen-info-campaignname-input">Redirect Website</label>
+                                            <RadzenTextBox Change=@(RedirectWebsiteChanged) class="w-100" aria-label="Default TextBox" />
+                                            <div class="invalid-feedback">Please write a call to action!</div>
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label" for="steparrow-gen-info-campaignname-input"> Enter your Call-To-Action heading</label>
-                                            <input type="text" class="form-control" id="steparrow-gen-info-campaignname-input" placeholder="Get the most simplest html builder" required>
+                                            <label for="formFile" class="form-label">Image</label>
+                                            <InputFile class="form-control" type="file" OnChange="OnFileChange"  id="formFile" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label" for="steparrow-gen-info-campaignname-input">Heading</label>
+                                            <InputText @bind-Value=newCampaign.AdCreative.Heading type="text" class="form-control" id="steparrow-gen-info-campaignname-input" placeholder="Get the most simplest html builder" />
                                             <div class="invalid-feedback">Please write a call to action!</div>
                                         </div>
                                         <div>
-                                            <label class="form-label" for="des-info-description-input">Describe your offer</label>
-                                            <textarea class="form-control" placeholder="Get 60% Off on a Life-Time Deal. 60days of Hassle free money-back guarantee." id="des-info-description-input" rows="3" required></textarea>
+                                            <label class="form-label" for="des-info-description-input">Description</label>
+                                            <InputTextArea @bind-Value=newCampaign.AdCreative.Description class="form-control" placeholder="Get 60% Off on a Life-Time Deal. 60days of Hassle free money-back guarantee." id="des-info-description-input" rows="3"></InputTextArea>
                                             <div class="invalid-feedback">Please enter a description</div>
+                                        </div>
+                                        <div class="d-flex justify-content-end mt-5">
+                                            <RadzenButton ButtonType="ButtonType.Submit" Text="Submit" BusyText="Validating" />
                                         </div>
                                     </div>
                                 </RadzenStepsItem>
@@ -165,42 +195,158 @@
                         </RadzenSteps>
                     </div>
                     <!-- end tab content -->
-                    <div class="col-4 p-2">
-                        <div class="d-flex h-100 flex-column justify-content-start align-items-center" style="border: 1px solid rgba(0,0,0,0.04)">
+                    <div class="col-4 col-xl-6  p-2">
+                        <div class="d-flex h-100 flex-column justify-content-start align-items-center" style="box-shadow: 0px 0px 5px silver inset">
                             <h4>Preview</h4>
 
-                            <article class="p-2" style="border: 1px solid gray; height: 300px; width: 250px">
-                                <div>
-                                    <img src="placeholder.png" alt="This is your ad display image" />
+                            <article class="p-2 overflow-hidden @(((newCampaign.Orientation!.Equals("Horizontal")) ? "d-flex gap-4" : ""))" style="border: 1px solid gray; height: @(newCampaign.AdCreative!.Height)px !important; width: @(newCampaign.AdCreative!.Width)px !important">
+                                <div class="d-flex justify-content-center">
+                                    <img src="@tempImagePath" 
+                                        style="
+                                            width: @((newCampaign.Orientation!.Equals("Vertical")) ? "100%" : "auto"); 
+                                            height: @((newCampaign.Orientation.Equals("Vertical")) ? "auto" : $"{newCampaign.AdCreative.Height - 20}px");"
+                                         alt="This is your ad display image" />
                                 </div>
-                                <div>
-                                    <strong>Your heading comes here</strong>
+                                <div class="d-flex flex-column @(((newCampaign.Orientation!.Equals("Box")) ? "d-none" : ""))">
+                                    <strong>@newCampaign.AdCreative.Heading</strong>
                                     <p>
-                                        Your description comes here. ------- 
-                                        -- - - ------ --- - ---- - -- - -  
-                                        -- - - - ------ ----  
+                                        @newCampaign.AdCreative.Description
                                     </p>
                                 </div>
                             </article>
                         </div>
                     </div>
                 </div>
-            </form>
+            </EditForm>
         </div>
         <!-- end card body -->
     </div>
     <!-- end card -->
 </div>
 <!-- end row -->
+<div>
+    .. GeneralAudience
+</div>
 @code {
+    [SupplyParameterFromForm]
+    public Campaign newCampaign { get; set; } = new Campaign()
+    {
+        Name = "",
+        SafetyComponents = new List<string>(),
+        TargetSites = new List<string>(),
+        Orientation = "",
+        AdCreative = new AdCreative()
+        {
+        },
+    };
+    string tempImagePath = "";
+    private List<string> selectedOptions { get; set; } = new List<string>();
+    private string selectedAdType { get; set; } = "GeneralAudience";
     int selectedIndex = 0;
     bool freezePrevious = false;
     int value = 1;
     int show = 100;
+    public async void PushCampaign()
+    {
+        if (!IsWebsiteValid(newCampaign.AdvertLinkAddress!))
+        {
+            alert.Notify(NotificationSeverity.Error, $"Redirect Website should be valid");
+            return;
+        }
+        if (string.IsNullOrEmpty(localUser.Email))
+        {
+            alert.Notify(NotificationSeverity.Error, "User Invaid. Redirecting to login");
+            return;
+        }
+        var user = await datastore.GetUserAsync(localUser);
+
+        newCampaign.UserId = user.Id;
+
+        var result = await datastore.PostCampaignAsync(newCampaign, "wwwroot/Uploads/ad.jpg");
+
+
+
+        alert.Notify(NotificationSeverity.Success, "");
+    }
+    private bool IsWebsiteValid(string args)
+    {
+        try
+        {
+            var web = new HtmlWeb().Load(args);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            return false;
+        }
+    }
+    public void RedirectWebsiteChanged(string args)
+    {
+        if (IsWebsiteValid(args))
+        {
+            alert.Notify(NotificationSeverity.Success, $"{args} passed!");
+            newCampaign.AdvertLinkAddress = args;
+            newCampaign.AdCreative.AdvertLinkAddress = args;
+            return;
+        }
+        alert.Notify(NotificationSeverity.Error, "This Site is not accessible.");
+    }
     public void OnChange(int index)
     {
-        selectedIndex = 1;
-        freezePrevious = true;
+        // if (string.IsNullOrEmpty(newCampaign.Name) |
+        //     string.IsNullOrEmpty(newCampaign.AdvertStyle) |
+        //     newCampaign.SafetyComponents!.Count() < 1 |
+        //     newCampaign.TargetSites!.Count() < 1)
+        // {
+        //     alert.Notify(NotificationSeverity.Warning, "Please complete missing fields.");
+        //     return;
+        // }
 
+        selectedIndex = 1;
+        // freezePrevious = true;
+    }
+    public async Task OnFileChange(InputFileChangeEventArgs args)
+    {
+        var tempFileName = $"{Guid.NewGuid()}{System.IO.Path.GetExtension(args.File.Name)}";
+        var uploadFolder = System.IO.Path.Combine(environment.WebRootPath, "Uploads");
+        var tempFilePath = System.IO.Path.Combine(uploadFolder, tempFileName);
+
+        // Create a new temporary file in the wwwroot directory
+        using (var stream = new FileStream(tempFilePath, FileMode.Create))
+        {
+            await args.File.OpenReadStream().CopyToAsync(stream);
+            tempImagePath = $"Uploads/{tempFileName}";
+            var formFile = new FormFile(stream, 0, stream.Length, null, args.File.Name)
+            {
+                Headers = new HeaderDictionary(),
+                ContentType = args.File.ContentType
+            };
+        }
+
+        // Assuming 'alert' is an instance of some notification service.
+        alert.Notify(NotificationSeverity.Info, tempFilePath);
+    }
+    public void OnInvalidCampaign()
+    {
+        alert.Notify(NotificationSeverity.Error, "Error");
+    }
+    public void AdOrientationChange()
+    {
+        if (newCampaign.Orientation!.Equals("Box"))
+        {
+            newCampaign.AdCreative!.Height = 400;
+            newCampaign.AdCreative.Width = 400;
+        }
+        else if (newCampaign.Orientation.Equals("Vertical"))
+        {
+            newCampaign.AdCreative!.Height = 400;
+            newCampaign.AdCreative.Width = 200;
+        }
+        else if (newCampaign.Orientation.Equals("Horizontal"))
+        {
+            newCampaign.AdCreative!.Height = 150;
+            newCampaign.AdCreative.Width = 500;
+        }
+        StateHasChanged();
     }
 }

@@ -1,32 +1,25 @@
 ﻿
 function initAdvertisingJs() {
-    console.log("1");
     class AlmaicAdvert extends HTMLElement {
         constructor() {
             super();
         }
     }
+
     customElements.define("almaic-prologue", AlmaicAdvert);
     const adContainer = document.getElementById("almaic-advertising-space");
     const adObject = new AlmaicAdvert();
 
-    // Create a new script element
     var script = document.createElement('script');
-
-    // Set the src attribute to the URL of the external JavaScript file
     script.src = 'https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.8/signalr.min.js';
-
     script.onload = function () {
-        console.log("4");
-        // Define a JavaScript module for event tracking
         const EventTracker = (function () {
-            // Initialize SignalR connection
+
             const connection = new signalR.HubConnectionBuilder()
-                .withUrl("https://localhost:7700/hubs/adeventmetrics") // Adjust the URL as needed
+                .withUrl("https://localhost:7700/hubs/adeventmetrics")
                 .configureLogging(signalR.LogLevel.Information)
                 .build();
 
-            // Function to send event to the server
             function sendEvent(eventType, eventData) {
                 console.log("7");
                 connection.invoke("SendAdvertEvent", eventType, eventData).then(() => { console.log('SendAdvertEventFired'); }).catch(err => {
@@ -34,17 +27,14 @@ function initAdvertisingJs() {
                 });
             }
 
-            // Function to attach event listeners to ad elements
+
             function attachEventListenersToAds() {
-                const adElements = document.getElementsByClassName('ad'); // Adjust selector as needed
+                const adElements = document.getElementsByClassName('ad');
                 for (let i = 0; i < adElements.length; i++) {
                     adElements[i].addEventListener('click', function (event) {
-                        sendEvent('adClick', { adId: event.target.id }); // Send ad click event
+                        sendEvent('adClick', { adId: event.target.id });
                         console.log("SENT EVENT: " + "adClick" + " " + event.target.id)
                     });
-
-                    // Add other event listeners as needed (e.g., impression, hover, etc.)
-                    // Example: adElements[i].addEventListener('impression', function(event) { ... });
                 }
                 let hoverStartTime;
                 adObject.addEventListener('mouseenter', (event) => {
@@ -56,13 +46,10 @@ function initAdvertisingJs() {
                     const adId = event.target.id;
                     sendEvent("MouseHoverEvent", hoverDuration);
                 });
-                console.log("6");
             }
 
-            // Initialize the event tracker
+
             function init() {
-                console.log("5");
-                // Start the SignalR connection
                 connection.start().then(() => {
                     console.log("Connection established");
                     attachEventListenersToAds();
@@ -74,7 +61,6 @@ function initAdvertisingJs() {
                 });
             }
 
-            // Expose the init function publicly
             return {
                 init: init
             };

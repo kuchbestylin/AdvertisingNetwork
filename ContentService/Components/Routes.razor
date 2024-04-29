@@ -1,4 +1,9 @@
 ﻿@using ContentService.Components.Account.Shared
+@using System.Security.Claims
+@using SharedModels.Services
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject User localUser
+
 <Router AppAssembly="typeof(Program).Assembly">
     <Found Context="routeData">
         <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)">
@@ -9,3 +14,15 @@
         <FocusOnNavigate RouteData="routeData" Selector="h1" />
     </Found>
 </Router>
+
+@code{
+
+    protected override void OnInitialized()
+    {
+        var authState = AuthenticationStateProvider.GetAuthenticationStateAsync().Result;
+        var user = authState.User;
+        localUser.Email = user.Claims.FirstOrDefault(claim => claim.Type.Equals("preferred_username"))?.Value;
+        localUser.NameIdentifier = user.Claims.FirstOrDefault(claim => claim.Type.Equals("name"))?.Value;
+        localUser.Sub = user.Claims.FirstOrDefault(claim => claim.Type.Equals("sub"))?.Value;
+    }
+}

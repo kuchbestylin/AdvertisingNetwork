@@ -4,9 +4,9 @@ using System.Text;
 
 namespace SharedModels.Models
 {
-    public class MonthlyPageViews
+    public class MonthlyPageView
     {
-        public int Id;
-        public string Range;
+        public int Id { get; set; }
+        public string? Range { get; set; }
     }
 }

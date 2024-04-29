@@ -1,6 +1,27 @@
-﻿<Router AppAssembly="typeof(Program).Assembly">
+﻿@attribute [Authorize]
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject User localUser
+
+<Router AppAssembly="typeof(Program).Assembly">
     <Found Context="routeData">
         <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)" />
-        <FocusOnNavigate RouteData="routeData" Selector="h1" />
     </Found>
 </Router>
+
+@code {
+    protected override void OnInitialized()
+    {
+        try
+        {
+            var authState = AuthenticationStateProvider.GetAuthenticationStateAsync().Result;
+            var user = authState.User;
+            localUser.Email = user.Claims.FirstOrDefault(claim => claim.Type.Equals("preferred_username"))?.Value;
+            localUser.NameIdentifier = user.Claims.FirstOrDefault(claim => claim.Type.Equals("name"))?.Value;
+            localUser.Sub = user.Claims.FirstOrDefault(claim => claim.Type.Equals("sub"))?.Value;
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine($"An Error Occured: {ex.Message}");
+        }
+    }
+}

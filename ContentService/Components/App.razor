@@ -1,12 +1,12 @@
 ﻿<!DOCTYPE html>
 <html lang="en"
-      data-layout="vertical"
-      data-topbar="dark"
-      data-sidebar="dark"
-      data-sidebar-size="sm-hover"
+      data-layout="semibox"
+      data-topbar="light"
+      data-sidebar="light"
+      data-sidebar-size="lg"
       data-sidebar-image="none"
-      data-preloader="enable"
-      data-theme="interactive"
+      data-preloader="disable"
+      data-theme="creative"
       data-theme-colors="purple"
       data-sidebar-visibility="show"
       data-layout-style="default"
@@ -42,11 +42,11 @@
     <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
     <link href="assets/css/custom.min.css" rel="stylesheet" type="text/css" />
-    <HeadOutlet @rendermode="RenderModeForPage" />
+    <HeadOutlet @rendermode="InteractiveServer" />
 </head>
 
 <body>
-    <Routes @rendermode="RenderModeForPage" />
+    <Routes @rendermode="InteractiveServer" />
     <script src="_framework/blazor.web.js"></script>
     <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
     <!-- JAVASCRIPT -->

@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using System.Security.Claims
 @inject DialogService DialogService
 @inject IJSRuntime jsRuntime
 
@@ -9,4 +10,17 @@
 <AdvertTable />
 
 <AddNewAdvertModal />
+
+@* @code{
+    protected async override Task OnInitializedAsync()
+    {
+        var claims = new Claim[] {
+            new Claim("sub", "unique_id_for_your_user")
+        };
+        var identity = new ClaimsIdentity(claims, "pwd");
+        var user = new ClaimsPrincipal(identity);
+
+        await HttpContext.SignInAsync(user);
+    }
+} *@
 

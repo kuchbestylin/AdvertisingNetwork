@@ -16,6 +16,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\RegisteredWebsite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Report.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\TokenProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\User.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\DataStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\IDataStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\IdentityServerSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ITokenService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\TokenService.cs" />

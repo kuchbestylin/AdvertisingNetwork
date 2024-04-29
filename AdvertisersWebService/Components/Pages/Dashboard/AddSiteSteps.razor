@@ -63,13 +63,13 @@
 @code {
     int siteVisitorRange = 0;
     int continent = 0;
-    MonthlyPageViews monthlyPageViewsValue = new MonthlyPageViews { Id = 1, Range = "1-100k Visits" };
-    List<MonthlyPageViews> monthlyPageViewsRange = new List<MonthlyPageViews>()
+    MonthlyPageView monthlyPageViewsValue = new MonthlyPageView { Id = 1, Range = "1-100k Visits" };
+    List<MonthlyPageView> monthlyPageViewsRange = new List<MonthlyPageView>()
     { 
-        new MonthlyPageViews{ Id = 1, Range = "1-100K Visits"},
-        new MonthlyPageViews{ Id = 2, Range = "100K-1M Visits"},
-        new MonthlyPageViews{ Id = 3, Range = "1M-10M Visits"},
-        new MonthlyPageViews{ Id = 4, Range = "10M+ Visits"}
+        new MonthlyPageView{ Id = 1, Range = "1-100K Visits"},
+        new MonthlyPageView{ Id = 2, Range = "100K-1M Visits"},
+        new MonthlyPageView{ Id = 3, Range = "1M-10M Visits"},
+        new MonthlyPageView{ Id = 4, Range = "10M+ Visits"}
     };
     private string address;
     private List<string> categoryValues = new List<string>();
