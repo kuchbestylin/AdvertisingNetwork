@@ -1,6 +1,9 @@
 ﻿@inject DialogService DialogService
 @inject User localUser
 @inject IDataStore dataStore
+@inject NotificationService alert
+@inject NavigationManager navigationManager
+
 
 <div class="col-lg-6">
     <div class="card">
@@ -37,14 +40,14 @@
                     <RadzenDataGridColumn TItem="RegisteredWebsite" Property="Domain" Title="Name">
                         <Template Context="website">
                             <div>
-                                <a href="site-dashboard" class="text-decoration-underline">@website.Domain</a>
+                                <a @onclick="() => NavigateToReport(website.AdsEnabled, website.Id.ToString())" class="text-decoration-underline">@website.Domain</a>
                             </div>
                         </Template>
                     </RadzenDataGridColumn>
                     <RadzenDataGridColumn TItem="RegisteredWebsite" Property="IsActive" Title="Ads Enabled">
                         <Template Context="website">
                             <div>
-                                <RadzenSwitch @bind-Value=@website.AdsEnabled InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "Switch value" }})" />
+                                <RadzenSwitch @bind-Value=@website.AdsEnabled Change="() => OnSwitchChanged(website)" InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "Switch value" }})" />
                             </div>
                         </Template>
                     </RadzenDataGridColumn>
@@ -91,6 +94,44 @@
         var result = await DialogService.OpenAsync("Add a new Site", ds =>
     @<RadzenStack Gap="1.5rem">
         <AddSiteSteps />
-    </RadzenStack>, new DialogOptions() { Draggable = true, Resizable = true});
+    </RadzenStack>
+    , new DialogOptions() { Draggable = true, Resizable = true});
+    }
+    public void NavigateToReport(bool adsEnabled, string id)
+    {
+        if (adsEnabled)
+        {
+            navigationManager.NavigateTo($"site-dashboard/{id}");
+        }
+        alert.Notify(NotificationSeverity.Error, "Ads Disabled");
+    }
+    public async void OnSwitchChanged(RegisteredWebsite site)
+    {
+        try
+        {
+            await ShowScriptTagDialog(site);
+        }
+        catch(Exception ex)
+        {
+            
+        }
+    }
+    async Task ShowScriptTagDialog(RegisteredWebsite site)
+    {
+        var result = await DialogService.OpenAsync("Verify Ownership", ds =>
+    @<RadzenStack Gap="1.5rem">
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
+            <div>
+                <RadzenTextArea ReadOnly="true">
+                    @($""""<script async src="{navigationManager.BaseUri}/Uploads/" crossorigin="anonymous"></script>"""")
+                </RadzenTextArea>
+            </div>
+            <RadzenStack Orientation="Orientation.Horizontal">
+                <RadzenButton Text="Ok" Click="() => ds.Close(true)" Style="width: 80px;" />
+                <RadzenButton Text="Cancel" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" />
+            </RadzenStack>
+            <RadzenButton Text="Refresh" Click="(() => {ds.Refresh(); })" ButtonStyle="ButtonStyle.Light" />
+        </RadzenStack>
+    </RadzenStack>);
     }
 }

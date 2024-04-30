@@ -220,6 +220,7 @@
             return;
         }
         showStepButtons = true;
+        address = siteName;
         alert.Notify(NotificationSeverity.Success, $"{siteName} parsed successfully");
         StateHasChanged();
     }

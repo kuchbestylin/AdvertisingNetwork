@@ -14,6 +14,7 @@ namespace SharedModels.Models
         public string? Continent { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string? TagHashCode { get; set; }
+        public string? BaseUri { get; set; }
         public List<string>? Audience { get; set; }
         public bool AdsEnabled { get; set; }
         public bool HasScriptTag { get; set; }

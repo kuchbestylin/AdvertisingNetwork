@@ -1,4 +1,4 @@
-﻿@page "/site-dashboard"
+﻿@page "/site-dashboard/{id}"
 
 <PageTitle>Site Dashboard</PageTitle>
 
@@ -14,5 +14,7 @@
 
 @code{
     [Parameter]
-    public RegisteredWebsite Site {get; set;}
+    public RegisteredWebsite? Site {get; set;}
+    [Parameter]
+    public string? id { get; set; }
 }

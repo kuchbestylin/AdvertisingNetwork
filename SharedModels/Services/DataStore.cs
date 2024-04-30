@@ -78,5 +78,10 @@ namespace SharedModels.Services
 
             return 0;
         }
+
+        public async Task<RegisteredWebsite?> GetSiteAsync(int siteId)
+        {
+            return await _httpClient.GetFromJsonAsync<RegisteredWebsite>($"{demandsideconstant}/site/{siteId}");
+        }
     }
 }

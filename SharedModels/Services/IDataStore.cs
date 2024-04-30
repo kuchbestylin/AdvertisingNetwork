@@ -30,6 +30,7 @@ namespace SharedModels.Services
 
         // demandside url (group)
         Task<List<RegisteredWebsite>?> GetSitesAsync(int userId);
+        Task<RegisteredWebsite?> GetSiteAsync(int siteId);
         Task<RegisteredWebsite?> PostSiteAsync(RegisteredWebsite site);
 
     }
