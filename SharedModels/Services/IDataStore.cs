@@ -29,6 +29,8 @@ namespace SharedModels.Services
         Task<List<Campaign>?> GetCampaignsAsync(int userId);
 
         // demandside url (group)
+        Task<RegisteredWebsite?> EnableAdsAsync(int siteId);
+        Task<RegisteredWebsite?> DisableAdsAsync(int siteId);
         Task<List<RegisteredWebsite>?> GetSitesAsync(int userId);
         Task<RegisteredWebsite?> GetSiteAsync(int siteId);
         Task<RegisteredWebsite?> PostSiteAsync(RegisteredWebsite site);

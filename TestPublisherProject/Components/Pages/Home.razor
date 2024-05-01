@@ -1,6 +1,4 @@
 ﻿@page "/"
-@attribute [Authorize]
-@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <PageTitle>Home</PageTitle>
 
@@ -12,32 +10,10 @@ Welcome to your new app.
 <div id="almaic-advertising-space"></div>
 
 
-@if (User != null)
-{
-    foreach (var claim in User.Claims)
-    {
-        <div>Type:@claim.Type & Value:@claim.Value</div>
-        <br />
-    }
-}
-<h3>Welcome, @User!.Identity!.Name!</h3>
-<p>Your role is: @UserRole</p>
-
 
 @code {
-    private ClaimsPrincipal? User { get; set; }
-    private string? UserRole { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        User = authState.User;
-
-        // Retrieve user's role
-        var idnty = User.Identity;
-        UserRole = User.FindFirst(ClaimTypes.Role)?.Value;
-        var email = User.FindFirst(ClaimTypes.Email)?.Value;
-        var sid = User.FindFirst(ClaimTypes.Sid)?.Value;
-    }
+    // protected override async Task OnInitializedAsync()
+    // {
+    // }
 }
 

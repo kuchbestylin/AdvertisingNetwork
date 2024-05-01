@@ -83,5 +83,15 @@ namespace SharedModels.Services
         {
             return await _httpClient.GetFromJsonAsync<RegisteredWebsite>($"{demandsideconstant}/site/{siteId}");
         }
+
+        public async Task<RegisteredWebsite?> EnableAdsAsync(int siteId)
+        {
+            return await _httpClient.GetFromJsonAsync<RegisteredWebsite>($"{demandsideconstant}/adsenable/{siteId}");
+        }
+
+        public async Task<RegisteredWebsite?> DisableAdsAsync(int siteId)
+        {
+            return await _httpClient.GetFromJsonAsync<RegisteredWebsite>($"{demandsideconstant}/adsdisable/{siteId}");
+        }
     }
 }

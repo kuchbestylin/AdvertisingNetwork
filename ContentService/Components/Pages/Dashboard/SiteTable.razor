@@ -47,7 +47,7 @@
                     <RadzenDataGridColumn TItem="RegisteredWebsite" Property="IsActive" Title="Ads Enabled">
                         <Template Context="website">
                             <div>
-                                <RadzenSwitch @bind-Value=@website.AdsEnabled Change="() => OnSwitchChanged(website)" InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "Switch value" }})" />
+                                <RadzenSwitch Value="website.AdsEnabled" Change="() => OnSwitchChanged(website)" InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "Switch value" }})" />
                             </div>
                         </Template>
                     </RadzenDataGridColumn>
@@ -113,25 +113,100 @@
         }
         catch(Exception ex)
         {
-            
+
         }
     }
+    bool verifyCheckBox = false;
+    public bool ScanForTag(RegisteredWebsite site, string script)
+    {
+        HtmlWeb web = new HtmlWeb();
+        try
+        {
+            HtmlDocument document = web.Load(site.Domain);
+
+            HtmlNodeCollection scriptNodes = document.DocumentNode.SelectNodes("//script");
+
+            if(scriptNodes != null)
+            {
+                foreach (HtmlNode scriptNode in scriptNodes)
+                {
+                    string srcAttribute = scriptNode.GetAttributeValue("src", "");
+                    string fingerprintAttribute = scriptNode.GetAttributeValue("fingerprint", "");
+
+                    if (srcAttribute.Contains($"https://{site.BaseUri}/Uploads/advert_event_tracking_module.js")
+                        && fingerprintAttribute.Contains(site.TagHashCode))
+                    {
+                        return true;
+                    }
+                }
+                alert.Notify(NotificationSeverity.Error, "Verification was Unsuccessful");
+                verificationFailed = true;
+                return false;
+            }
+            else
+            {
+                alert.Notify(NotificationSeverity.Error, "Code could not be found");
+                verificationFailed = true;
+                return false;
+            }
+        }
+        catch(Exception ex)
+        {
+            verificationFailed = true;
+            return false;
+        }
+        verificationFailed = true;
+        return false;
+    }
+    public async void VerifySiteAgainstScript(DialogService ds, RegisteredWebsite site, string script)
+    {
+        verifybuttonBusy = true;
+        StateHasChanged();
+        try
+        {
+            bool result = ScanForTag(site: site, script);
+            if(result is true)
+            {
+                var response = await dataStore.EnableAdsAsync(site.Id);
+                alert.Notify(NotificationSeverity.Success, "Success Congratulations!!!!");
+                registeredWebsites = await dataStore.GetSitesAsync(localUser.Id);
+                ds.Close();
+            }
+        }
+        catch(Exception ex)
+        {
+            alert.Notify(NotificationSeverity.Error, ex.Message);
+        }
+        finally
+        {
+            verifybuttonBusy = false;
+        }
+
+    }
+    public bool verifybuttonBusy = false;
+    private bool verificationFailed = false;
     async Task ShowScriptTagDialog(RegisteredWebsite site)
     {
         var result = await DialogService.OpenAsync("Verify Ownership", ds =>
-    @<RadzenStack Gap="1.5rem">
-        <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
-            <div>
-                <RadzenTextArea ReadOnly="true">
-                    @($""""<script async src="{navigationManager.BaseUri}/Uploads/" crossorigin="anonymous"></script>"""")
-                </RadzenTextArea>
+    @<RadzenColumn>
+        <RadzenColumn Gap="0.5rem">
+            <div class="w-100">
+                <RadzenTextArea Style="width: 100%; height: 300px; font-size: 1em" ReadOnly="true" Value="@($""""<script async src="https://{site.BaseUri}/Uploads/advert_event_tracking_module.js" fingerprint="{site.TagHashCode}" crossorigin="anonymous"></script>"""")" />
             </div>
-            <RadzenStack Orientation="Orientation.Horizontal">
-                <RadzenButton Text="Ok" Click="() => ds.Close(true)" Style="width: 80px;" />
-                <RadzenButton Text="Cancel" Click="() => ds.Close(false)" ButtonStyle="ButtonStyle.Light" />
-            </RadzenStack>
-            <RadzenButton Text="Refresh" Click="(() => {ds.Refresh(); })" ButtonStyle="ButtonStyle.Light" />
-        </RadzenStack>
-    </RadzenStack>);
+            <div class="w-100 d-flex flex-column">
+                <div class="pt-2">
+                    <p class="text-warning">Place this code in your Home page then click Verify</p>
+                </div>
+                <div class="d-flex align-items-end gap-4">
+                    <div class="@((verifybuttonBusy) ? "" : "d-none")">
+                        <RadzenProgressBarCircular Mode="ProgressBarMode.Indeterminate" Size="ProgressBarCircularSize.Small">
+                            <Template>Wait</Template>
+                        </RadzenProgressBarCircular>
+                    </div>
+                    <RadzenButton Style="width: 100px" Disabled=@verifybuttonBusy IsBusy=@verifybuttonBusy Text="Verify" BusyText="Please Wait.." Click=@(() => VerifySiteAgainstScript(ds, site, $""""<script async src="https://{site.BaseUri}/Uploads/advert_event_tracking_module.js" fingerprint="{site.TagHashCode}" crossorigin="anonymous"></script>"""")) />
+                </div>
+            </div>
+        </RadzenColumn>
+    </RadzenColumn>);
     }
 }
