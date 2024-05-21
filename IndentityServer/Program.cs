@@ -19,6 +19,8 @@ using IndentityServer;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
@@ -47,6 +49,8 @@ builder.Services.AddHealthChecks();
 builder.Services.AddIdentityServer(o =>
 {
     o.Authentication.CookieAuthenticationScheme = IdentityConstants.ApplicationScheme;
+    o.Authentication.CookieSameSiteMode = SameSiteMode.Strict;
+    o.Authentication.CookieLifetime = TimeSpan.FromSeconds(0);
 })
     .AddAspNetIdentity<ApplicationUser>()
     .AddConfigurationStore(options =>
@@ -80,8 +84,6 @@ Log.Logger = new LoggerConfiguration()
 // --------------------------------------------------------
 
 var app = builder.Build();
-
-app.MapDefaultEndpoints();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

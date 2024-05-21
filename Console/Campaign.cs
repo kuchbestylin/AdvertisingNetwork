@@ -26,20 +26,13 @@ namespace SharedModels.Models
         public AdCreative? AdCreative { get; set; }
         public string? Orientation { get; set; }
         public DateTime? Created { get; set; }
-        public int CampaignLengthInDays { get; set; } = 30;
+        public int CampaignLengthInDays { get; set; }
         public bool ConversionsEnabled { get; set; }
         public string? AdvertLinkAddress { get; set; }
         [ForeignKey(nameof(User))]
         public int UserId { get; set; }
         public User? User { get; set; }
-        public List<Randomizer> Appearances { get; set; } = new List<Randomizer>();
-    }
-
-    public class Randomizer
-    {
-        public int Id { get; set; }
-        public int SiteId { get; set; }
-        public int Appearances { get; set; }
+        
     }
     public class User
     {
@@ -51,8 +44,7 @@ namespace SharedModels.Models
     public enum PaymentType
     {
         CPC,
-        CPT,
-        ANY
+        CPT
     }
 
     public enum AdvertOrientation

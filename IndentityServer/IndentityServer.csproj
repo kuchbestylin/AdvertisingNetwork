@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AdvertisingNetwork.ServiceDefaults\AdvertisingNetwork.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\AspireAdvertisingNetwork.ServiceDefaults\AspireAdvertisingNetwork.ServiceDefaults.csproj" />
   </ItemGroup>
 
 </Project>

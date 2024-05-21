@@ -21,8 +21,11 @@ namespace AdEventingSignalRService.Services
         public async Task SendAdvertEvent(string name, double count, int id)
         {
             Console.WriteLine($"::: {name} => {count} => {id}");
+
+            //Sends Metric/EventData to the respective handler
             _httpClient.BaseAddress = new Uri("https://localhost:10000");
             await _httpClient.PostAsJsonAsync($"/reporting/metrics/{id}", new EventData(name, count, id));
+
             // Broadcast the event to all clients
             await Clients.All.SendAsync("ReceiveEvent", name, count, id);
         }
