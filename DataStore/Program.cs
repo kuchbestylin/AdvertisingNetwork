@@ -431,7 +431,6 @@ bidding.MapGet("getmatch/{fingerprint}", (
 
             if (campaigns.Count() > 1)
             {
-                campaigns = null;
                 if (site.MonetizationType is PaymentType.ANY)
                 {
 
