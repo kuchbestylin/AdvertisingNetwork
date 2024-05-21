@@ -1,6 +1,0 @@
-@AdProviderService_HostAddress = http://localhost:5291
-
-GET {{AdProviderService_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
